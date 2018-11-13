@@ -29,7 +29,6 @@ for i in range (len(df["Fecha de Entrega"]) - 1):
     orders.append(order)
 
 actualProvider = orders[0]["Provider"]
-print(actualProvider)
 totalError = 0
 totalDays = 0
 totalPieces = 0
@@ -59,5 +58,6 @@ for i in range (len(orders) - 1):
     totalPieces += orders[i]["Pieces"]
     totalError += orders[i]["Error"]
     totalWait += orders[i]["NextOrderIn"]
-    
-print(providers)
+for i in range(len(providers)):
+    print("Proveedor: {}".format(providers[i]["Name"]))
+    print("\tPeriodicidad: {}\n\tIndice de error: {}\n\tTiempo de servicio: {}\n\tServicios: {}".format(providers[i]["Periodicity"], providers[i]["Error"], providers[i]["Service"], providers[i]["Services"]))
