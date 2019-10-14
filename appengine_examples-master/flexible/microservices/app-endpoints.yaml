@@ -1,0 +1,17 @@
+service: default
+runtime: python
+
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
+
+runtime_config:
+  python_version: 3
+
+manual_scaling:
+  instances: 1
+
+endpoints_api_service:
+  # The following values are to be replaced by information from the output of
+  # 'gcloud endpoints services deploy openapi.yaml' command.
+  name: test-vcn-ep.appspot.com #ENDPOINTS-SERVICE-NAME
+  rollout_strategy: managed

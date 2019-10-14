@@ -1,0 +1,91 @@
+swagger: "2.0"
+info:
+  description: "Google Cloud Endpoints API demo."
+  title: "Endpoints Demo"
+  version: "1.0"
+host: "test-vcn-ep.appspot.com"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+schemes:
+- "https"
+- "http"
+
+x-google-management:
+  metrics:
+    - name: "read-requests"
+      displayName: "Main Requests"
+      valueType: INT64
+      metricKind: DELTA
+  quota:
+    limits:
+      - name: "read-limit"
+        metric: "read-requests"
+        unit: "1/min/{project}"
+        values:
+          STANDARD: 10
+
+paths:
+  "/main":
+    get:
+      summary: "Servicio principal"
+      description: "Obtiene la respuesta del servicio principal"
+      operationId: "main"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: OK
+      parameters: []
+      x-google-quota:
+        metricCosts:
+          "read-requests": 1
+      security:
+      - auth0_jwk: []
+  /{service}:
+    get:
+      summary: "Servicio de backend"
+      description: "Obtiene la respueta del servicio de backend"
+      operationId: "backend"
+      produces:
+      - application/json
+      parameters:
+      - name: service
+        in: path
+        required: true
+        type: string
+        description: 'Servicio a consultar'
+      responses:
+        200:
+          description: OK
+      security:
+      - auth0_jwk: []
+  /auth/get_token:
+    get:
+      description: Obtener un JWT válido
+      summary: Auth Get Token
+      operationId: AuthGetToken
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+
+security:
+  - api_key: []
+
+securityDefinitions:
+    api_key:
+        type: "apiKey"
+        name: "key"
+        in: "query"
+    auth0_jwk:
+      authorizationUrl: "" #"https://vcubells.auth0.com/authorize"
+      flow: "implicit"
+      type: "oauth2"
+      x-google-issuer: "https://vcubells.auth0.com/"
+      x-google-jwks_uri: "https://vcubells.auth0.com/.well-known/jwks.json"
+      x-google-audiences: "https://test-vcn-ep.appspot.com"
+

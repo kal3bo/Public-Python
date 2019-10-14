@@ -1,0 +1,5 @@
+steps:
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy", "app.yaml"]
+  dir: 'standard/microservices'
+timeout: "1600s"
